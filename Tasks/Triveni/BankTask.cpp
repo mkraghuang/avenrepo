@@ -11,20 +11,16 @@ class ATMpos
 {
 public:
 
-	float amount=0.00, withdrawamount,Depositamount;
-	string  customername, customerid;
-	int pinnumber=7324, OTP,count=0;
-	int ispinentered = pinnumber;
-	
-	
-
-	ATMpos(float amount, string name, string id, int pinno): amount(amount),customername (name),customerid (id),pinnumber(pinno)
+	float amount, withdrawamount, Depositamount;
+	int pinnumber; int ispinentered = pinnumber;
+ATMpos(float amount, float withdraw,float Deposit, int pinno): amount(amount), withdrawamount(withdraw), Depositamount(Deposit),pinnumber(pinno)
 	{
 		
 	}
 
 	void  cashwithdraw()
 	{
+		pinnumber = 7324;
 		cout << "Enter your pinnumber" << endl;
 		cin >> pinnumber;
 		bool iswithdrawamount = false;
@@ -58,7 +54,6 @@ public:
 
 	void cashdeposit()
 	{
-		
 		cout << "Enter Pinnumber:" << endl;
 		cin >> pinnumber;
 		if (pinnumber == 7324)
@@ -95,8 +90,9 @@ public:
 	}
 	void Pinchange()
 	{
-		string input;
-	    cout <<"Enter customername" << endl;
+		int OTP;
+		string  customername,input;
+		cout <<"Enter customername" << endl;
 		cin >> input;
 		if(customername == input)
 		{
@@ -115,13 +111,13 @@ public:
 
 	}
 	void getstatement()
-	{
-		ispinentered = pinnumber;
+	{ 
+		
+		int ispinentered = pinnumber;
 		if (pinnumber == 7324)
 		{
 			cout << "WelcomeMr Naveedsafi" << endl;
 			cout << "*Welcome ATMpos*" << endl;
-			cout << "Wecome Mr Naveedsafi" << endl;
 			cout << "Your withdraw amount" << withdrawamount << endl;
 			cout << "your deposit amount" << Depositamount << endl;
 			cout << "******Thanks for Using******"<<endl;
@@ -142,7 +138,7 @@ public:
 
 int main()
 {
-	ATMpos obj(2000,"Naveedsafi","Abcd123",7234);
+	ATMpos obj(500.0,450.0,900.0,7324);
 	cout << "Welcome To PF-L ATM" << endl;
 	int cashwithdraw = 1;
 	int cashdeposit = 2;
