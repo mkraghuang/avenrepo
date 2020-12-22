@@ -22,6 +22,29 @@
 #include "stdafx.h"
 #include "SampleService.h"
 #include "event_ids.h"
+#include <cpprest/http_listener.h>
+#include <cpprest/json.h>
+
+#pragma comment(lib, "cpprest141_2_10")
+
+
+#define TRACE(msg)            wcout << msg
+#define TRACE_ACTION(a, k, v) wcout << a << L" (" << k << L", " << v << L")\n"
+
+
+
+
+
+
+using namespace web;
+using namespace web::http;
+using namespace web::http::experimental::listener;
+
+#include <iostream>
+#include <map>
+#include <set>
+#include <string>
+using namespace std;
 
 
 CSampleService::CSampleService(PCWSTR pszServiceName,
@@ -126,11 +149,45 @@ void CSampleService::Run()
     OnStart(0, NULL);
 }
 
+void handle_get(http_request request)
+{
+	TRACE(L"\nhandle GET\n");
+	request.reply(status_codes::OK);
+}
+
+void handle_post(http_request request)
+{
+	TRACE("\nhandle POST\n");
+	request.reply(status_codes::OK);
+}
+
 DWORD __stdcall CSampleService::ServiceRunner(void* self)
 {
     CSampleService* pService = (CSampleService*)self;
 
+	MessageBox(0, L"", L"", 0);
     pService->WriteLogEntry(L"Sample Service has started.", EVENTLOG_INFORMATION_TYPE, MSG_STARTUP, CATEGORY_SERVICE);
+
+	http::uri uri(L"http://localhost:4500/");
+
+	http_listener listener(uri);
+
+	listener.support(methods::GET, handle_get);
+	listener.support(methods::POST, handle_post);
+	
+	try
+	{
+		listener
+			.open()
+			.then([&listener]() {TRACE(L"\nstarting to listen\n"); })
+			.wait();
+
+		while(true);
+	}
+	catch (exception const & e)
+	{
+		wcout << e.what() << endl;
+	}
 
     // Periodically check if the service is stopping.
     for (bool once = true; !pService->m_bIsStopping; once = false)
