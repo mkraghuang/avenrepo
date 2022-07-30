@@ -7,9 +7,9 @@ void main()
 	cout << "Enter Two Numbers:";
 	cin >> a >> b;
 
-	int result = a > b ? a : b;
+	int result = a < b ? a : b;
 
-	cout << "Max Number is:" << result;
+	cout << "Min Number is:" << result;
 
 	system("pause");
 }
