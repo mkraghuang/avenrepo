@@ -1,1 +1,6 @@
+<<<<<<< HEAD
 hello Mahesh how are you
+=======
+welcome to you mahesh
+good evening hello
+>>>>>>> 2dd7fee0c7f21303987288c78ace34994a7573b7
